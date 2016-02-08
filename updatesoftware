@@ -5,61 +5,59 @@
 # import modules
 import time
 import os
-import sys
+import sys, traceback
 # defining functions
 # NOTE: PUT ARCH, GENTOO, AND OTHER OS PACKAGE MANAGER'S FUNCTIONS HERE
 # SEE ABOVE
 # SEE ABOVE
-#
-# introduces the program and asks the user what os they are using
-# asks the user what os they are using
 
-# for ubuntu or debian
-print("Hello, I am a basic software updater")
-time.sleep(1.5)
-print("Do you want to A) Update Software B) Upgrade Software C) Clean Software or All?")
-time.sleep (.5)
-choice = input("Enter A, B, C, or All: ")
-# determining what to do
-if choice == 'a':
+def update():
     os.system("sudo apt-get update")
     time.sleep (1)
-    print("Your repositories are up to date!")
-if choice == 'A':
-    os.system("sudo apt-get update")
-    time.sleep (1)
-    print("Your repositories is up to date!!")
-if choice == 'b':
+    print("Your repositories are up to date!!")
+def upgrade():
     os.system("sudo apt-get upgrade")
     time.sleep (1)
     print("Your software is up to date!!")
-if choice == 'b':
-    os.system("sudo apt-get upgrade")
-    time.sleep (1)
-    print("Your software is up to date!!")
-if choice == 'B':
-    os.system("sudo apt-get upgrade")
-    time.sleep (1)
-    print("Your software is up to date!!")
-if choice == 'c':
-    os.system("sudo apt-get autoremove")
-    time.sleep (1)
-    print("All Done!!")
-if choice == 'C':
+def clean():
     os.system("sudo apt-get autoremove")
     time.sleep (1)
     print("All done!!")
-if choice == 'all':
-    os.system("sudo apt-get upgrade && sudo apt-get upgrade -y && sudo apt-get autoremove -y")
-    time.sleep (1)
-    print("Your system is up to date!!")
-if choice == 'All':
-    os.system("sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove -y")
-    time.sleep (1)
-    print("Your system is up to date!!")
-# this exits the program
-print("You've updated and/or cleaned your system packages.")
-time.sleep (.5)
-choice == input("Press 'Enter' to close the program. ")
-time.sleep (1)
-exec("exit()")
+def main():
+    try:
+        # introduces the program and asks the user what os they are using
+        # asks the user what os they are using
+
+        # for debian based distros, or anything running APT
+
+        print("Hello, I am a basic software updater")
+        time.sleep(1.5)
+        print("Do you want to A) Update Software B) Upgrade Software C) Clean Software or All?")
+        time.sleep (.5)
+        print(sys.version_info)
+        choice = raw_input("Enter A, B, C, or All: ")
+        if sys.version_info>(3,0,0):
+	    choice = input("Enter A, B, C, or All: ")
+
+        # determining what to do
+
+        if choice == 'a' or choice == 'A':
+            update()
+        if choice == 'b' or choice == 'B':
+            upgrade()
+        if choice == 'c' or choice == 'C':
+            clean()
+        if choice == 'all' or choice == 'All':
+            os.system("sudo apt-get upgrade && sudo apt-get upgrade -y && sudo apt-get autoremove -y")
+            time.sleep (1)
+            print("Your system is up to date!!")
+
+    except KeyboardInterrupt:
+        print("")
+        print "Shutdown requested...exiting"
+    except Exception:
+        traceback.print_exc(file=sys.stdout)
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()
